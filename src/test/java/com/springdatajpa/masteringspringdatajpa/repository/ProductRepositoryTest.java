@@ -23,11 +23,13 @@ public class ProductRepositoryTest {
     @Rollback(false)
     public void saveTestMethod(){
 
+        String dynamicSku = "iphone" + System.currentTimeMillis();
+
         //create product object
         Product product = Product.builder()
                 .name("Iphone 6")
                 .description("This is an Iphone 6 product")
-                .sku("ip152")
+                .sku(dynamicSku)
                 .price(new BigDecimal(200))
                 .active(true)
                 .imageUrl("iphone.png")
@@ -40,8 +42,38 @@ public class ProductRepositoryTest {
         System.out.println(savedProductObject.getId());
         System.out.println(savedProductObject.toString());
 
-
     }
+
+    @Test
+    @Transactional
+    @Rollback(false)
+    public void updateTestMethod(){
+
+        //find or retrieve on entity by id
+        Long id = 1L;
+
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Product not found" + id));
+
+        //Update entity information
+        product.setName("iphone 7");
+        product.setDescription("This is an iphone 7 product");
+
+        //save updated entity
+        Product updatedProduct = productRepository.save(product);
+    }
+
+    @Test
+    @Transactional
+    @Rollback(false)
+    public void findByIdTestMethod(){
+
+        Long id = 4L;
+
+        Product findByIdProduct = productRepository.findById(id).get();
+    }
+
+
 
 
 
