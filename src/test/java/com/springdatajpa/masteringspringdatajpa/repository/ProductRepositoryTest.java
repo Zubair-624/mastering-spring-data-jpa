@@ -9,8 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 //import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
-
+import java.awt.*;
 import java.math.BigDecimal;
+import java.util.List;
 
 @SpringBootTest
 public class ProductRepositoryTest {
@@ -72,6 +73,61 @@ public class ProductRepositoryTest {
 
         Product findByIdProduct = productRepository.findById(id).get();
     }
+
+    @Test
+    @Transactional
+    @Rollback(false)
+    public void saveAllTestMethod(){
+
+        String dynamicSku = "iphone" + System.currentTimeMillis();
+
+        //Create product
+        Product product = Product.builder()
+                .name("Iphone 7")
+                .description("This is an Iphone 7")
+                .sku(dynamicSku)
+                .price(new BigDecimal(500))
+                .active(true)
+                .imageUrl("ihone 7.ing")
+                .build();
+
+        Product product3 = Product.builder()
+                .name("Iphone 8")
+                .description("This is an Iphone 8")
+                .sku(dynamicSku)
+                .price(new BigDecimal(600))
+                .active(true)
+                .imageUrl("iphone 8.ing")
+                .build();
+
+        List<Product> SaveAllProducts = productRepository.saveAll(List.of(product, product3));
+    }
+
+
+    @Test
+    @Transactional
+    @Rollback(false)
+    public void findAllTestMethod(){
+
+        List<Product> products = productRepository.findAll();
+
+        products.forEach(product -> {
+            System.out.println(product.getName());
+        });
+    }
+
+    @Test
+    @Transactional
+    @Rollback(false)
+    void deleteByIdTestMethod(){
+
+        Long id = 4L;
+
+        productRepository.deleteById(id);
+    }
+
+
+
 
 
 
