@@ -147,6 +147,18 @@ public class ProductRepositoryTest {
         productRepository.deleteAll();
     }
 
+    @Test
+    @Transactional
+    @Rollback(false)
+    void deleteSpecificTestMethod(){
+
+        Product product = productRepository.findById(4l).get();
+
+        Product product1 = productRepository.findById(5l).get();
+
+        productRepository.deleteAll(List.of(product, product1));
+    }
+
 
 
 
