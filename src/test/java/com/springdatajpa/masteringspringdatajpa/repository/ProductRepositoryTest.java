@@ -169,6 +169,16 @@ public class ProductRepositoryTest {
         System.out.println(countAll);
     }
 
+    @Test
+    @Transactional
+    @Rollback(false)
+    void existByIdTestMethod(){
+
+        Long id = 5L;
+
+        boolean existProduct = productRepository.existsById(id);
+    }
+
 
 
 
