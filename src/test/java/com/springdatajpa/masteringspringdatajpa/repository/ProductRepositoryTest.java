@@ -126,6 +126,19 @@ public class ProductRepositoryTest {
         productRepository.deleteById(id);
     }
 
+    @Test
+    @Transactional
+    @Rollback(false)
+    void deleteTestMethod(){
+
+        //find an entity by id
+        Long id = 5L;
+        Product deleteProduct = productRepository.findById(id).get();
+
+        //delete(entity)
+        productRepository.delete(deleteProduct);
+    }
+
 
 
 
