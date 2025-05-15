@@ -139,6 +139,15 @@ public class ProductRepositoryTest {
         productRepository.delete(deleteProduct);
     }
 
+    @Test
+    @Transactional
+    @Rollback(false)
+    void deleteAllTestMethod(){
+
+        productRepository.deleteAll();
+    }
+
+
 
 
 
