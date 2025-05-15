@@ -159,6 +159,18 @@ public class ProductRepositoryTest {
         productRepository.deleteAll(List.of(product, product1));
     }
 
+    @Test
+    @Transactional
+    @Rollback(false)
+    void countAllTestMethod(){
+
+        Long countAll = productRepository.count();
+
+        System.out.println(countAll);
+    }
+
+
+
 
 
 
