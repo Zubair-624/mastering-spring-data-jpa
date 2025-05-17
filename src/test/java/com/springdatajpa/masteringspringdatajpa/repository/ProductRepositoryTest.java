@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
-//import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 
 import java.awt.*;
@@ -37,11 +37,14 @@ public class ProductRepositoryTest {
                 .build();
 
         //save product object in the database
-        Product savedProductObject = productRepository.save(product);
+        Product savedProduct = productRepository.save(product);
 
         //display the product information
-        System.out.println(savedProductObject.getId());
-        System.out.println(savedProductObject.toString());
+        System.out.println(savedProduct.getId());
+        System.out.println(savedProduct.toString());
+
+        assertNotNull(savedProduct);
+        assertNotNull(savedProduct.getId());
 
     }
 
@@ -54,7 +57,7 @@ public class ProductRepositoryTest {
         Long id = 1L;
 
         Product product = productRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Product not found" + id));
+                .orElseThrow(() -> new RuntimeException("Product not found:" + id));
 
         //Update entity information
         product.setName("iphone 7");
@@ -62,6 +65,8 @@ public class ProductRepositoryTest {
 
         //save updated entity
         Product updatedProduct = productRepository.save(product);
+
+
     }
 
     @Test
@@ -71,7 +76,10 @@ public class ProductRepositoryTest {
 
         Long id = 4L;
 
-        Product findByIdProduct = productRepository.findById(id).get();
+        Product product = productRepository.findById()
+                .orElseThrow(() -> new RuntimeException("Product not found:" + id));
+
+        assertNotNull(product);
     }
 
     @Test
@@ -82,7 +90,7 @@ public class ProductRepositoryTest {
         String dynamicSku = "iphone" + System.currentTimeMillis();
 
         //Create product
-        Product product = Product.builder()
+        Product product1 = Product.builder()
                 .name("Iphone 7")
                 .description("This is an Iphone 7")
                 .sku(dynamicSku)
@@ -91,7 +99,7 @@ public class ProductRepositoryTest {
                 .imageUrl("ihone 7.ing")
                 .build();
 
-        Product product3 = Product.builder()
+        Product product2 = Product.builder()
                 .name("Iphone 8")
                 .description("This is an Iphone 8")
                 .sku(dynamicSku)
@@ -100,7 +108,7 @@ public class ProductRepositoryTest {
                 .imageUrl("iphone 8.ing")
                 .build();
 
-        List<Product> SaveAllProducts = productRepository.saveAll(List.of(product, product3));
+        List<Product> SaveAllProducts = productRepository.saveAll(List.of(product1, product2));
     }
 
 
